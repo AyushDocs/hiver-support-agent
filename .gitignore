@@ -1,0 +1,26 @@
+# raw corpus — download via Kaggle, do not commit
+data/raw/
+
+# regenerable pipeline intermediates
+*.npz
+data/processed/preprocessing_checkpoint.csv
+data/processed/embedding_visualization.png
+
+# secrets & local env
+.env
+.env.*
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+build/
+dist/
+
+# notebooks / misc
+.ipynb_checkpoints/
+.DS_Store
+
+# assignment prompt (do not publish)
+"Hiver SDE Intern Assignment.pdf"

@@ -1,0 +1,9 @@
+nltk
+pyspellchecker
+emoji
+pandas
+tqdm
+scikit-learn
+joblib
+openai
+anthropic

@@ -1,0 +1,74 @@
+{
+  "model": "LogisticRegression(max_iter=2000, random_state=42)",
+  "features": "word2vec_mean (vector_size=100) normalized L2",
+  "training": "high-confidence silver labels only",
+  "val_accuracy": 0.7582,
+  "val_macro_f1": 0.7426,
+  "test_accuracy": 0.7607,
+  "test_macro_f1": 0.7405,
+  "per_class": {
+    "appreciation": {
+      "precision": 0.5075301204819277,
+      "recall": 0.6217712177121771,
+      "f1-score": 0.5588723051409619,
+      "support": 542.0
+    },
+    "customer_service": {
+      "precision": 0.8120300751879699,
+      "recall": 0.7953708574434508,
+      "f1-score": 0.8036141376561254,
+      "support": 1901.0
+    },
+    "delivery_issue": {
+      "precision": 0.7686868686868686,
+      "recall": 0.7718052738336714,
+      "f1-score": 0.770242914979757,
+      "support": 986.0
+    },
+    "email_contact": {
+      "precision": 0.7739403453689168,
+      "recall": 0.7282127031019202,
+      "f1-score": 0.7503805175038052,
+      "support": 677.0
+    },
+    "order_status": {
+      "precision": 0.8500797448165869,
+      "recall": 0.7908011869436202,
+      "f1-score": 0.819369715603382,
+      "support": 674.0
+    },
+    "macro avg": {
+      "precision": 0.7424534309084538,
+      "recall": 0.741592247806968,
+      "f1-score": 0.7404959181768064,
+      "support": 4780.0
+    },
+    "weighted avg": {
+      "precision": 0.7685328687405699,
+      "recall": 0.7606694560669456,
+      "f1-score": 0.7636614179722786,
+      "support": 4780.0
+    }
+  },
+  "feature_comparison": {
+    "word2vec_mean": {
+      "val_acc": 0.7581589958158996,
+      "test_acc": 0.7606694560669456
+    },
+    "tfidf": {
+      "val_acc": 0.9259414225941422,
+      "test_acc": 0.9242677824267782
+    },
+    "w2v+tfidf": {
+      "val_acc": 0.9246861924686193,
+      "test_acc": 0.9225941422594143
+    }
+  },
+  "label_mapping": {
+    "0": "appreciation",
+    "1": "customer_service",
+    "2": "delivery_issue",
+    "3": "email_contact",
+    "4": "order_status"
+  }
+}

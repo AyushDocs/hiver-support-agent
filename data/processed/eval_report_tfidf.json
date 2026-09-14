@@ -1,0 +1,55 @@
+{
+  "engine": "tfidf",
+  "golden_200_autolabelled": {
+    "intent_accuracy": 0.93,
+    "baseline_majority_intent": "customer_service",
+    "baseline_accuracy": 0.4,
+    "macro_f1": 0.9292,
+    "routing_accuracy": 0.975,
+    "baseline_all_assist_accuracy": 0.425,
+    "route_distribution": {
+      "auto": 110,
+      "assist": 90
+    },
+    "route_reasons": {
+      "consistent_resolution_history": 54,
+      "insufficient_history": 52,
+      "routine_intent_history": 38,
+      "needs_judgment": 37,
+      "acknowledge_and_close": 18,
+      "low_prediction_confidence": 1
+    },
+    "avg_evidence_sim": 0.9949,
+    "pct_with_draft": 1.0
+  },
+  "hand_labeled_50": {
+    "n": 50,
+    "hand_intent_accuracy": 0.625,
+    "hand_route_accuracy": 0.52,
+    "hand_route_assist_baseline": 0.88,
+    "silver_gold_intent_agreement": 0.52,
+    "silver_gold_route_agreement": 0.44,
+    "n_other": 2
+  },
+  "llm_judge": {
+    "vs_gold": {
+      "mode": "openai",
+      "model": "gpt-4o-mini",
+      "n": 30,
+      "intent_accuracy_vs_autogold": 0.3333,
+      "route_accuracy_vs_autogold": 0.4333,
+      "route_kappa_vs_autogold": 0.0,
+      "draft_yes": 1,
+      "draft_partial": 0,
+      "draft_no": 29
+    },
+    "vs_hand": {
+      "n": 50,
+      "intent_accuracy_vs_hand": 0.5,
+      "route_accuracy_vs_hand": 0.82,
+      "route_kappa_vs_hand": -0.087,
+      "hand_route_vs_judge_draft_flagged": 3
+    }
+  },
+  "sampling_note": "Golden N=200 stratified by silver intent (seed=42), auto-labeled pending spot-check. Hand subset N=50 labelled by a human reviewer on reading tweet + author history (hand_labels.py)."
+}

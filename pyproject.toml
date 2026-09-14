@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hiver-support-agent"
+version = "0.1.0"
+description = "AmazonHelp support agent: intent classification, history-grounded reply drafting, auto-route / human escalation."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "AyushDocs", email = "ayushdocs@users.noreply.github.com" }]
+keywords = ["nlp", "support", "intent-classification", "amazon", "retrieval", "twitter"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "nltk",
+    "pyspellchecker",
+    "emoji",
+    "pandas",
+    "tqdm",
+    "numpy",
+    "scikit-learn",
+    "joblib",
+]
+
+[project.optional-dependencies]
+judge = ["openai", "anthropic"]
+pipeline = ["gensim", "matplotlib", "seaborn", "langdetect"]
+hf = ["huggingface-hub"]
+all = ["gensim", "matplotlib", "seaborn", "langdetect", "openai", "anthropic", "huggingface-hub"]
+
+[project.scripts]
+hiver = "agent:main"
+
+[tool.setuptools]
+py-modules = ["agent", "local_preprocess"]

@@ -1,0 +1,80 @@
+{
+  "rule": {
+    "appreciation": "auto (acknowledge & close)",
+    "pred_confidence < 0.3": "assist (low prediction confidence)",
+    "low_confidence": "assist (unclear intent)",
+    "intent_prevalence < 0.02": "assist (no precedent)",
+    "history_sufficient == False": "assist (insufficient history)",
+    "routine intent": "auto (order_status / email_contact)",
+    "consistent resolver": "auto (>=2 replied, rate>=0.7)",
+    "else": "assist (needs judgment)"
+  },
+  "constants": {
+    "conf_lo": 0.3,
+    "prev_min": 0.02,
+    "hist_vol_min": 3,
+    "hist_reply_min": 0.3,
+    "auto_intents": [
+      "email_contact",
+      "order_status"
+    ],
+    "auto_reply_min": {
+      "history_replied": 2,
+      "history_reply_rate": 0.7
+    }
+  },
+  "routing": {
+    "assist": 16459,
+    "auto": 15403
+  },
+  "routing_by_intent": {
+    "appreciation": {
+      "assist": 0,
+      "auto": 4501
+    },
+    "customer_service": {
+      "assist": 8660,
+      "auto": 3586
+    },
+    "delivery_issue": {
+      "assist": 4634,
+      "auto": 1985
+    },
+    "email_contact": {
+      "assist": 1554,
+      "auto": 2766
+    },
+    "order_status": {
+      "assist": 1611,
+      "auto": 2565
+    }
+  },
+  "reasons": {
+    "insufficient_history": 6455,
+    "unclear_intent": 5695,
+    "consistent_resolution_history": 5571,
+    "routine_intent_history": 5331,
+    "acknowledge_and_close": 4501,
+    "needs_judgment": 4156,
+    "low_prediction_confidence": 153
+  },
+  "auto_rate": 0.4834,
+  "avg_confidence_by_route": {
+    "assist": 0.6942,
+    "auto": 0.7129
+  },
+  "avg_history_by_route": {
+    "assist": 7.0,
+    "auto": 10.44
+  },
+  "sensitivity_conf_lo": {
+    "0.15": 0.4849,
+    "0.2": 0.4849,
+    "0.25": 0.4849,
+    "0.3": 0.4834,
+    "0.35": 0.4781,
+    "0.4": 0.4664,
+    "0.5": 0.4315
+  },
+  "authors": 18777
+}

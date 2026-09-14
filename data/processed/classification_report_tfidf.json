@@ -1,0 +1,42 @@
+{
+  "model": "LogisticRegression(max_iter=2000, random_state=42)",
+  "features": "TfidfVectorizer(min_df=2, max_df=0.5, stop_words=english, unigrams)",
+  "training": "high-confidence silver labels only (mirror of 03)",
+  "val_accuracy": 0.9259414225941422,
+  "val_macro_f1": 0.9250657315911374,
+  "test_accuracy": 0.9242677824267782,
+  "test_macro_f1": 0.9240715739774202,
+  "per_class": {
+    "appreciation": {
+      "precision": 0.9956,
+      "recall": 0.8321,
+      "f1-score": 0.9065,
+      "support": 542.0
+    },
+    "customer_service": {
+      "precision": 0.8665,
+      "recall": 0.9868,
+      "f1-score": 0.9228,
+      "support": 1901.0
+    },
+    "delivery_issue": {
+      "precision": 0.9468,
+      "recall": 0.9016,
+      "f1-score": 0.9236,
+      "support": 986.0
+    },
+    "email_contact": {
+      "precision": 0.9798,
+      "recall": 0.8582,
+      "f1-score": 0.915,
+      "support": 677.0
+    },
+    "order_status": {
+      "precision": 0.9857,
+      "recall": 0.9214,
+      "f1-score": 0.9525,
+      "support": 674.0
+    }
+  },
+  "word2vec_test_accuracy": 0.7672
+}

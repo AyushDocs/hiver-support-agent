@@ -1,0 +1,76 @@
+{
+  "topic_labels": {
+    "0": "delivery_issue",
+    "1": "customer_service",
+    "2": "order_status",
+    "3": "email_contact",
+    "4": "appreciation"
+  },
+  "top_words": {
+    "0": [
+      "delivery",
+      "day",
+      "say",
+      "deliver",
+      "today",
+      "prime",
+      "package",
+      "arrive",
+      "date",
+      "wait"
+    ],
+    "1": [
+      "amazon",
+      "customer",
+      "time",
+      "service",
+      "contact",
+      "refund",
+      "product",
+      "want",
+      "issue",
+      "care"
+    ],
+    "2": [
+      "order",
+      "cancel",
+      "place",
+      "item",
+      "receive",
+      "ship",
+      "refund",
+      "number",
+      "return",
+      "hi"
+    ],
+    "3": [
+      "email",
+      "send",
+      "receive",
+      "reply",
+      "message",
+      "account",
+      "direct",
+      "mail",
+      "check",
+      "link"
+    ],
+    "4": [
+      "help",
+      "thanks",
+      "thank",
+      "just",
+      "response",
+      "resolve",
+      "try",
+      "need",
+      "issue",
+      "ok"
+    ]
+  },
+  "config": {
+    "best_k": 5,
+    "confidence_threshold": 0.01604554088244403,
+    "total_tweets": 31972
+  }
+}
