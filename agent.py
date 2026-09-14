@@ -50,12 +50,8 @@ def tokenize(text):
 
 def clean_raw(text):
     """Apply the notebook-01 pipeline to a NEW raw message before modelling."""
-    try:
-        from local_preprocess import preprocess_worker
-        return preprocess_worker(text)
-    except (ImportError, ModuleNotFoundError):
-        text = re.sub(r'https?\S+|@\w+|#\w+', ' ', str(text))
-        return re.sub(r'\s+', ' ', text).lower().strip()
+    text = re.sub(r'https?\S+|@\w+|#\w+', ' ', str(text))
+    return re.sub(r'\s+', ' ', text).lower().strip()
 
 
 HANDLE_RE = re.compile(r'@\w+')

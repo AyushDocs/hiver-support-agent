@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Train an optional TF-IDF + Logistic Regression intent classifier.
 
-Mirrors local_classify.py's exact split/high-confidence-training protocol but
+Mirrors the same split/high-confidence-training protocol as notebook 03 but
 replaces the word2vec features with TF-IDF.  Measured on the same split it
 outperforms word2vec (test acc ~0.924 vs ~0.767), so it is shipped as a
 drop-in alternative engine for agent.py (`--engine tfidf`).
@@ -44,7 +44,7 @@ y_enc = y.transform(df['intent'])
 texts = np.asarray([str(t) for t in df['text'].values])
 idx_all = np.arange(len(df))
 
-# identical split to local_classify.py (03)
+# identical split to notebook 03
 idx_tr, idx_te, y_tr, y_te = train_test_split(
     idx_all, y_enc, test_size=0.15, random_state=SEED, stratify=y_enc)
 idx_tr, idx_val, y_tr, y_val = train_test_split(

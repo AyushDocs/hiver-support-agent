@@ -37,4 +37,4 @@ all = ["gensim", "matplotlib", "seaborn", "langdetect", "openai", "anthropic", "
 hiver = "agent:main"
 
 [tool.setuptools]
-py-modules = ["agent", "local_preprocess"]
+py-modules = ["agent"]
