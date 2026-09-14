@@ -18,7 +18,7 @@ tweet ──► 01 clean ─► 02 intent (NMF topics) ─► 03 classify (TF-ID
                          │                           ▼
                          └──────────────► agent.py: classify → retrieve reply → route
                                                        │
-              eval.py (metrics + baselines + LLM judge) ◄─┘
+        notebooks/05_evaluate.ipynb (metrics + judge) ◄─┘
 ```
 
 ---
@@ -31,9 +31,9 @@ pip install -r requirements.txt
 python agent.py "my order never arrived" --author-id 172791877
 ```
 
-LLM judge (optional): set `OPENAI_API_KEY` (used by default, `gpt-4o-mini`) or
-`ANTHROPIC_API_KEY` / `ANTHROPIC_BASE_URL`. If no endpoint is reachable, `eval.py`
-falls back to a deterministic judge and records `llm_judge.mode` accordingly.
+LLM judge (optional): set `OPENAI_API_KEY` (used by default, `gpt-4o-mini`).
+If no endpoint is reachable, the judge falls back to a deterministic
+keyword heuristic and records `llm_judge.mode` accordingly.
 
 Models and eval data are mirrored on the Hugging Face Hub
 ([models](https://huggingface.co/24f2004275/hiver-support-agent),
@@ -62,7 +62,7 @@ re-run every stage to verify the chain end-to-end.
 
 # Step 4 — golden sets + evaluation       ~2 min (+ judge ~2 min)
 #   golden_eval.csv + golden_hand.csv built in notebook 04 (just re-run cell 6).
-python eval.py --judge-n 30                 # -> eval_report.json, eval_predictions.csv
+#   Open notebooks/05_evaluate.ipynb and Run All (or use agent.py interactively).
 
 # Step 5 — try the live agent              seconds
 python agent.py "my package said out for delivery today but it never arrived" --author-id 172791877
@@ -124,8 +124,8 @@ normalised, lemmatised) in notebook 01.
 5. **`agent.py`** — end-to-end entry point: clean → classify → retrieve
    history-grounded draft → route with reason.
    `--engine w2v|tfidf` (default **tfidf**). Notebook 04 builds the eval set
-   (golden_eval + golden_hand); `eval.py` scores it, including a real LLM judge
-   (see Evaluation).
+   (golden_eval + golden_hand); `notebooks/05_evaluate.ipynb` scores it,
+   including an LLM judge (see Evaluation).
 
 ### Routing rule
 
@@ -164,7 +164,7 @@ Reason breakdown: `insufficient_history` 6,455 · `unclear_intent` 5,695 ·
   Intent split: `order_status` 14 · `delivery_issue` 13 · `customer_service` 13 ·
   `email_contact` 7 · `appreciation` 1 · `other` 2. Route: 44 assist / 6 auto.
 
-### Harness (`eval.py`)
+### Harness (notebooks/05_evaluate.ipynb)
 
 Scores the live agent (either engine) over both golden sets and reports:
 
@@ -378,19 +378,19 @@ construction.
 
 **D15 — Human-labeled subset (N=50) as the one pipeline-independent ground truth.**
 A reviewer labelled `hand_intent`/`hand_route` from tweet + author history;
-`eval.py` scores both engines against it. The first run proved the point:
+`notebooks/05_evaluate.ipynb` scores both engines against it. The first run proved the point:
 silver-vs-human intent agreement is only **0.52** (route 0.44) — the auto-gold
 barely agrees with a human.
 
 **D16 — Real LLM judge (OpenAI) + judge↔human agreement, un-anchored.**
-Judge on `gpt-4o-mini`, fallback chain OpenAI→Anthropic→keyword; the prompt
+Judge on `gpt-4o-mini`; the prompt
 carries **no** gold or agent labels so the judge is un-anchored; evaluate the
 judge *against the human labels* (accuracy + Cohen's κ). Result: judge-vs-human
 intent ≈ 0.46–0.52, routing κ ≈ −0.06 to −0.09 — the judge is not (yet) a
 valid labeler.
 
 **D17 — TF-IDF becomes the default intent engine.**
-`agent.py`/`eval.py` default `--engine tfidf`. TF-IDF scores **0.935 vs 0.775**
+`agent.py` default `--engine tfidf`. TF-IDF scores **0.935 vs 0.775**
 (intent, auto-gold) and **0.604 vs 0.583** (vs human labels N=50) — strictly
 better and far better on typo/OOV tweets (char-level n-grams).
 
