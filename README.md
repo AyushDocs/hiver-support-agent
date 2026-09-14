@@ -29,6 +29,7 @@ tweet ──► 01 clean ─► 02 intent (NMF topics) ─► 03 classify (TF-ID
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python agent.py "my order never arrived" --author-id 172791877
+streamlit run demo.py                 # interactive UI at http://localhost:8501
 ```
 
 LLM judge (optional): set `OPENAI_API_KEY` (used by default, `gpt-4o-mini`).
