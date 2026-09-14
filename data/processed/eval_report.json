@@ -32,7 +32,24 @@
     "n_other": 2
   },
   "llm_judge": {
-    "note": "skipped (--judge-n 0)"
+    "vs_gold": {
+      "mode": "openai",
+      "model": "gpt-4o-mini",
+      "n": 1,
+      "intent_accuracy_vs_autogold": 0.0,
+      "route_accuracy_vs_autogold": 0.0,
+      "route_kappa_vs_autogold": null,
+      "draft_yes": 0,
+      "draft_partial": 0,
+      "draft_no": 1
+    },
+    "vs_hand": {
+      "n": 50,
+      "intent_accuracy_vs_hand": 0.4792,
+      "route_accuracy_vs_hand": 0.84,
+      "route_kappa_vs_hand": -0.0638,
+      "hand_route_vs_judge_draft_flagged": 2
+    }
   },
   "sampling_note": "Golden N=200 stratified by silver intent (seed=42), auto-labeled in notebook 04. Hand subset N=50 labelled by a human reviewer on reading tweet + author history (embedded in notebook 04)."
 }

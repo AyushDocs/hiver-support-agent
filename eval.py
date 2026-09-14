@@ -7,8 +7,10 @@ Scores the live agent (w2v or tfidf engine) over:
 * golden_hand.csv  — N=50 sub-set, HAND-labeled by a human reviewer
 
 and reports intent/routing metrics vs BOTH label sets, trivial baselines, a
-real LLM judge (OpenAI gpt-4o-mini via .env, with anthropic / heuristic
-fallbacks), judge↔human agreement incl. Cohen's kappa, and draft acceptance.
+real OpenAI gpt-4o-mini LLM judge (via .env, keyword heuristic fallback),
+judge↔human agreement incl. Cohen's kappa, and draft acceptance.
+
+Engine comes from $HIVER_ENGINE (w2v|tfidf) or --engine; local runs only.
 
 Outputs: data/processed/eval_report.json, eval_predictions.csv,
          eval_judge_results.csv
@@ -103,15 +105,6 @@ def _judge_openai(text, pred_intent, draft, model, client):
     return _parse_judge_output(r.choices[0].message.content)
 
 
-def _judge_anthropic(text, pred_intent, draft, model, client):
-    prompt = JUDGE_PROMPT_TEMPLATE.format(text=text, pred_intent=pred_intent,
-                                          draft=draft or 'N/A')
-    resp = client.messages.create(
-        model=model, max_tokens=256,
-        messages=[{'role': 'user', 'content': prompt}])
-    return _parse_judge_output(resp.content[0].text)
-
-
 def _heuristic_judge(text, row):
     t = str(text).lower()
     if any(w in t for w in ['thank', 'appreciate', 'love', 'great', 'awesome']):
@@ -150,19 +143,6 @@ def judge_sample(df_sample, model):
             print(f'  judge: OpenAI reachable (model={model})')
         except Exception as e:
             print(f'  judge: OpenAI failed ({type(e).__name__})')
-    if mode is None and os.environ.get('ANTHROPIC_API_KEY'):
-        try:
-            import anthropic
-            client = anthropic.Anthropic(
-                api_key=os.environ['ANTHROPIC_API_KEY'],
-                base_url=os.environ.get('ANTHROPIC_BASE_URL'), timeout=30)
-            client.messages.create(
-                model=model, max_tokens=2,
-                messages=[{'role': 'user', 'content': 'OK'}])
-            mode = 'anthropic'
-            print(f'  judge: Anthropic reachable (model={model})')
-        except Exception as e:
-            print(f'  judge: Anthropic failed ({type(e).__name__})')
     if mode is None:
         print('  judge: no LLM reachable — using heuristic fallback')
         mode = 'heuristic'
@@ -173,9 +153,6 @@ def judge_sample(df_sample, model):
         if mode == 'openai':
             parsed = _judge_openai(row['text'], row.get('pred_intent', ''),
                                    row.get('draft', ''), model, client)
-        elif mode == 'anthropic':
-            parsed = _judge_anthropic(row['text'], row.get('pred_intent', ''),
-                                      row.get('draft', ''), model, client)
         else:
             parsed = _heuristic_judge(row['text'], row)
         parsed['tweet_id'] = row['tweet_id']
@@ -196,7 +173,9 @@ def main():
     load_env()
     ap = argparse.ArgumentParser()
     ap.add_argument('--judge-n', type=int, default=30)
-    ap.add_argument('--engine', default='tfidf', choices=['w2v', 'tfidf'])
+    ap.add_argument('--engine', default=os.environ.get('HIVER_ENGINE', 'tfidf'),
+                    choices=['w2v', 'tfidf'],
+                    help="classifier engine (default: $HIVER_ENGINE or tfidf)")
     ap.add_argument('--judge-model', default=None)
     args = ap.parse_args()
 
