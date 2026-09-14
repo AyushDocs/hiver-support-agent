@@ -37,8 +37,7 @@ falls back to a deterministic judge and records `llm_judge.mode` accordingly.
 
 Models and eval data are mirrored on the Hugging Face Hub
 ([models](https://huggingface.co/24f2004275/hiver-support-agent),
-[dataset](https://huggingface.co/datasets/24f2004275/hiver-support-golden));
-re-upload with `HF_TOKEN=... python data/hf_upload.py`.
+[dataset](https://huggingface.co/datasets/24f2004275/hiver-support-golden)).
 
 ---
 
