@@ -3,6 +3,7 @@
 [![GitHub](https://img.shields.io/badge/GitHub-AyushDocs%2Fhiver--support--agent-181717?logo=github)](https://github.com/AyushDocs/hiver-support-agent)
 [![HF Models](https://img.shields.io/badge/HF%20Models-hiver--support--agent-FFD21E?logo=huggingface)](https://huggingface.co/24f2004275/hiver-support-agent)
 [![HF Datasets](https://img.shields.io/badge/HF%20Dataset-hiver--support--golden-FFD21E?logo=huggingface)](https://huggingface.co/datasets/24f2004275/hiver-support-golden)
+[![Streamlit App](https://img.shields.io/badge/Live%20Demo-streamlit-ff4b4b?logo=streamlit)](https://hiver-support-agent.streamlit.app/)
 
 An end-to-end support agent that, given a customer tweet, **classifies the
 intent**, **drafts a reply grounded in how AmazonHelp historically resolved the
@@ -35,6 +36,8 @@ streamlit run demo.py                 # interactive UI at http://localhost:8501
 LLM judge (optional): set `OPENAI_API_KEY` (used by default, `gpt-4o-mini`).
 If no endpoint is reachable, the judge falls back to a deterministic
 keyword heuristic and records `llm_judge.mode` accordingly.
+
+**Live demo:** [hiver-support-agent.streamlit.app](https://hiver-support-agent.streamlit.app/)
 
 Models and eval data are mirrored on the Hugging Face Hub
 ([models](https://huggingface.co/24f2004275/hiver-support-agent),
