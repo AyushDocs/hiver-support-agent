@@ -1,4 +1,5 @@
 nltk
+gensim
 pyspellchecker
 emoji
 pandas
@@ -6,4 +7,3 @@ tqdm
 scikit-learn
 joblib
 openai
-anthropic
