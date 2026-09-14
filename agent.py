@@ -70,9 +70,10 @@ def sanitize_reply(reply):
 class Agent:
     def __init__(self, verbose=False, autoresume=True, engine='tfidf'):
         import joblib
-        from gensim.models import Word2Vec
         self.t0 = time.time()
-        self.w2v = Word2Vec.load(os.path.join(MODELS, 'word2vec.model'))
+        w2v = np.load(os.path.join(MODELS, 'w2v_vectors.npz'), allow_pickle=True)
+        self.word2idx = {w: i for i, w in enumerate(w2v['words'])}
+        self.w2v_vecs = w2v['vectors'].astype(np.float32)
         self.engine = engine
         if engine == 'tfidf':
             self.clf = joblib.load(os.path.join(MODELS, 'tfidf_classifier.joblib'))
@@ -168,10 +169,10 @@ class Agent:
 
     # ---- step 1: classify -------------------------------------------------
     def embed(self, tokens):
-        vecs = [self.w2v.wv[t] for t in tokens if t in self.w2v.wv]
-        if not vecs:
+        idx = [self.word2idx[t] for t in tokens if t in self.word2idx]
+        if not idx:
             return None
-        v = np.mean(vecs, axis=0)
+        v = self.w2v_vecs[idx].mean(axis=0)
         v = v / np.linalg.norm(v)
         return v.astype(np.float32)
 

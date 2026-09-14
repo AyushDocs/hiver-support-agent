@@ -4,6 +4,7 @@ data/raw/
 # regenerable pipeline intermediates
 *.npz
 !data/processed/embeddings.npz
+!data/models/w2v_vectors.npz
 data/processed/preprocessing_checkpoint.csv
 data/processed/embedding_visualization.png
 

@@ -50,6 +50,10 @@ re-run every stage to verify the chain end-to-end.
 > The raw corpus (`data/raw/twcs.csv`, 516 MB) is a Kaggle download step and
 > **not shipped**. Notebook 01 is the slow step (~hours). Everything else
 > re-runs in under 5 minutes.
+>
+> Full pipeline retraining (notebooks 01–03) additionally requires `gensim`;
+> that dependency is only needed for training and is intentionally excluded
+> from `requirements.txt` so the live agent + Streamlit demo install cleanly.
 
 ```bash
 # Step 1 — intent discovery (02)          ~1 min
