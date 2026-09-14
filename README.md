@@ -26,18 +26,14 @@ tweet ──► 01 clean ─► 02 intent (NMF topics) ─► 03 classify (TF-ID
 ## Quick start
 
 ```bash
-# as a pip package (installs the `hiver` CLI)
-pip install -e .
-hiver "my order never arrived" --author-id 172791877
-
-# or plain venv + requirements
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python agent.py "my order never arrived" --author-id 172791877
 ```
 
-Optional extras (`pip install -e '.[judge]'`, `'.[pipeline]'`, `'.[all]'`) add
-the LLM judge clients, the gensim/matplotlib pipeline notebooks, or both.
+LLM judge (optional): set `OPENAI_API_KEY` (used by default, `gpt-4o-mini`) or
+`ANTHROPIC_API_KEY` / `ANTHROPIC_BASE_URL`. If no endpoint is reachable, `eval.py`
+falls back to a deterministic judge and records `llm_judge.mode` accordingly.
 
 Models and eval data are mirrored on the Hugging Face Hub
 ([models](https://huggingface.co/24f2004275/hiver-support-agent),
@@ -428,23 +424,3 @@ matters less than the numbers being honest **right now**.
   shipped TF-IDF engine is fully deterministic.
 
 ---
-
-## Repository layout
-
-```
-agent.py                 live agent (classify + history-grounded draft + route)
-build_golden.py          builds golden_eval.csv (N=200, auto-labeled)
-build_golden_hand.py     builds golden_hand.csv (N=50, human-labeled)
-hand_labels.py           the 50 human labels (reviewer evidence for audit)
-eval.py                  evaluation harness (metrics, baselines, LLM judge, kappa)
-train_tfidf.py           trains the default TF-IDF intent engine (0.924 test acc)
-pyproject.toml           pip-installable package (`hiver` console script)
-requirements.txt         dependencies
-data/hf_upload.py        publishes golden sets + models to the Hugging Face Hub
-notebooks/01..04_*.ipynb executed Kaggle notebooks (canonical pipeline)
-data/
-  raw/twcs.csv           raw corpus (~516 MB, download step)      [not shipped]
-  processed/             01–05 outputs: preprocessed/labeled/classified/routed,
-                         golden_eval/_hand, eval_report[_w2v|_tfidf], routing_report etc.
-  models/                word2vec + tfidf models, logistic-regression engines
-```
