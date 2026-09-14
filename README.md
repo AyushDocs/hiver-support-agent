@@ -61,8 +61,7 @@ re-run every stage to verify the chain end-to-end.
 #   Requires notebook 04 output (amazon_help_routed.csv).
 
 # Step 4 — golden sets + evaluation       ~2 min (+ judge ~2 min)
-python build_golden.py                       # -> golden_eval.csv
-python build_golden_hand.py                  # -> golden_hand.csv
+#   golden_eval.csv + golden_hand.csv built in notebook 04 (just re-run cell 6).
 python eval.py --judge-n 30                 # -> eval_report.json, eval_predictions.csv
 
 # Step 5 — try the live agent              seconds
@@ -79,13 +78,15 @@ TF-IDF engine is the default (`--engine w2v` reproduces the notebooks).
 
 | Metric | TF-IDF | w2v | Baseline |
 |---|---:|---:|---:|
-| Intent accuracy (auto-gold N=200) | **0.930** | 0.775* | 0.400 |
-| Routing accuracy vs auto-gold | **0.975** | 0.915 | 0.425 |
-| Agent vs human labels (N=50, intent) | **0.625** | 0.583 | 0.520 silver-vs-human |
+| Intent accuracy (auto-gold N=200) | **0.935** | 0.775* | 0.400 |
+| Routing accuracy vs auto-gold | **0.980** | 0.915 | 0.425 |
+| Agent vs human labels (N=50, intent) | **0.604** | 0.583 | 0.520 silver-vs-human |
 | Corpus auto-route rate | **48.34%** | ≈48.3%* | — |
 
 \* w2v is trained with gensim `workers=4` (non-deterministic) and drifts ~1.5 pts
-per retrain; TF-IDF is fully deterministic. See **Limitations** below.
+per retrain; TF-IDF is fully deterministic. Numbers above are from Kaggle-retrained
+models (sklearn 1.6.1 → local 1.9.1); minor shifts vs local runs are expected.
+See **Limitations** below.
 
 ---
 
@@ -122,8 +123,9 @@ normalised, lemmatised) in notebook 01.
    precedent, and author reply history (constants below).
 5. **`agent.py`** — end-to-end entry point: clean → classify → retrieve
    history-grounded draft → route with reason.
-   `--engine w2v|tfidf` (default **tfidf**). `build_golden.py` builds the eval
-   set; `eval.py` scores it, including a real LLM judge (see Evaluation).
+   `--engine w2v|tfidf` (default **tfidf**). Notebook 04 builds the eval set
+   (golden_eval + golden_hand); `eval.py` scores it, including a real LLM judge
+   (see Evaluation).
 
 ### Routing rule
 
@@ -186,9 +188,9 @@ Scores the live agent (either engine) over both golden sets and reports:
 
 | Metric | w2v engine | **TF-IDF engine** | Baseline |
 |---|---:|---:|---:|
-| Intent accuracy | 0.775 | **0.930** | 0.400 (always `customer_service`) |
-| Intent macro-F1 | 0.763 | **0.929** | — |
-| Routing accuracy | 0.915 | **0.975** | 0.425 (always `assist`) |
+| Intent accuracy | 0.775 | **0.935** | 0.400 (always `customer_service`) |
+| Intent macro-F1 | 0.763 | **0.935** | — |
+| Routing accuracy | 0.915 | **0.980** | 0.425 (always `assist`) |
 | Draft present | 100% | 100% | — |
 | Mean retrieval similarity | 0.9949 | 0.9949 | — |
 
@@ -198,7 +200,7 @@ Scores the live agent (either engine) over both golden sets and reports:
 |---|---:|---:|---|
 | **Silver gold vs human** | **0.52** | **0.44** | the auto-labels barely agree with a human |
 | w2v agent vs human | 0.583 | 0.540 | |
-| **TF-IDF agent vs human** | **0.625** | **0.520** | human assist rate is 0.88 (baseline) |
+| **TF-IDF agent vs human** | **0.604** | **0.500** | human assist rate is 0.88 (baseline) |
 | **LLM judge vs human** | **0.46–0.52** | **0.84** | route κ = **−0.06 to −0.09** (≈ chance) |
 | LLM judge vs auto-gold | 0.30–0.37 | 0.433 | n=30 subsample |
 
@@ -388,8 +390,8 @@ intent ≈ 0.46–0.52, routing κ ≈ −0.06 to −0.09 — the judge is not (
 valid labeler.
 
 **D17 — TF-IDF becomes the default intent engine.**
-`agent.py`/`eval.py` default `--engine tfidf`. TF-IDF scores **0.930 vs 0.775**
-(intent, auto-gold) and **0.625 vs 0.583** (vs human labels N=50) — strictly
+`agent.py`/`eval.py` default `--engine tfidf`. TF-IDF scores **0.935 vs 0.775**
+(intent, auto-gold) and **0.604 vs 0.583** (vs human labels N=50) — strictly
 better and far better on typo/OOV tweets (char-level n-grams).
 
 **D18 — Drafts: sanitised handles + auto-route safety gate.**

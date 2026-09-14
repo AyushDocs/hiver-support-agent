@@ -324,8 +324,8 @@ def main():
 
     report['sampling_note'] = (
         f'Golden N={len(df)} stratified by silver intent (seed=42), auto-labeled '
-        'pending spot-check. Hand subset N=50 labelled by a human reviewer on '
-        'reading tweet + author history (hand_labels.py).')
+        'in notebook 04. Hand subset N=50 labelled by a human reviewer on '
+        'reading tweet + author history (embedded in notebook 04).')
 
     with open(os.path.join(PROC, 'eval_report.json'), 'w') as f:
         json.dump(report, f, indent=2, default=str)
